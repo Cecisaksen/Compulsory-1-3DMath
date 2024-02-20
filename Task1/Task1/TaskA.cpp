@@ -32,6 +32,8 @@ vector<float> TaskA::redOrGreen(int x)
 {
     vector<float> colour;
 
+    ofstream outfile("Vertexdata1.txt");
+
     vector<float> functionValues;
     for (int i = 0; i < x; i++) {
         double f = 2 * i + 2;
@@ -41,9 +43,11 @@ vector<float> TaskA::redOrGreen(int x)
     for (size_t i = 0; i < functionValues.size() - 1; i++) {
         if (functionValues[i] < functionValues[i + 1]) {
             cout << "Interval " << i << " is increasing (green)." << endl;
+            outfile << "Interval " << i << " is increasing (green)." << endl;
         }
         else {
             cout << "Interval " << i << " is decreasing (red)." << endl;
+            outfile << "Interval " << i << " is decreasing (red)." << endl;
         }
     }
 

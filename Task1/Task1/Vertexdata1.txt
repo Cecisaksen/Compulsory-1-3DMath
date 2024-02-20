@@ -1,0 +1,2 @@
+Interval 0 is increasing (green).
+Interval 1 is increasing (green).
