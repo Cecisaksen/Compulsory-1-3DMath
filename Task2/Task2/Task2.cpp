@@ -17,9 +17,10 @@ void processInput(GLFWwindow* window);
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+glm::vec3 cameraPos = glm::vec3(6.0f, 5.0f, 5.0f); // Move the camera back along the z-axis
+glm::vec3 cameraFront = glm::normalize(glm::vec3(-1.0f, -1.0f, -1.0f)); // Look towards the origin
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f); // Keep the up vector the same
+
 
 vector<float> generateSpiral(float numLoops, float numPoints, float scale);
 
@@ -63,7 +64,9 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    // Set up shaders
+    // Enable depth testing
+    glEnable(GL_DEPTH_TEST);
+
     const char* vertexShaderSource = "#version 330 core\n"
         "layout (location = 0) in vec3 aPos;\n"
         "uniform mat4 projection;\n"
@@ -107,7 +110,7 @@ int main()
         processInput(window);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear depth buffer as well
 
         // Set up view matrix
         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
@@ -120,6 +123,8 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+
 
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
@@ -137,7 +142,7 @@ vector<float> generateSpiral(float numLoops, float numPoints, float scale)
         float angle = 2 * M_PI * numLoops * t;
         float x = scale * t * cos(angle);
         float y = scale * t * sin(angle);
-        float z = scale * t * 0.1f; // Adjust this factor to control the depth
+        float z = scale * t; // Use t directly for z-coordinate to create a 3D spiral
         vertices.push_back(x);
         vertices.push_back(y);
         vertices.push_back(z);
@@ -145,6 +150,7 @@ vector<float> generateSpiral(float numLoops, float numPoints, float scale)
 
     return vertices;
 }
+
 
 void processInput(GLFWwindow* window)
 {
@@ -156,3 +162,4 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
+

@@ -1,4 +1,4 @@
 ﻿  Task2.cpp
-C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task2\Task2\Task2.cpp(117,56): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task2\Task2\Task2.cpp(137,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task2\Task2\Task2.cpp(120,56): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task2\Task2\Task2.cpp(142,21): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   Task2.vcxproj -> C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task2\x64\Debug\Task2.exe
