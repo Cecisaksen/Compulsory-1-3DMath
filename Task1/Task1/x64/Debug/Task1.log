@@ -1,3 +1,14 @@
 ﻿  TaskA.cpp
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(43,28): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(43,52): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(46,53): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(46,77): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(51,53): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(51,77): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(54,30): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(54,52): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(54,74): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(54,96): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(54,118): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
+C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\Task1\TaskA.cpp(54,140): warning C4244: 'argument': conversion from 'float' to 'const unsigned __int64', possible loss of data
   Task1.vcxproj -> C:\4. semester\3D Math compulsory\Compulsory-1-3DMath\Task1\x64\Debug\Task1.exe

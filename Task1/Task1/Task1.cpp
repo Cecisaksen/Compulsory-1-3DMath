@@ -9,20 +9,24 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 const char* vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-"}\0";
+"layout(location = 0) in vec3 aPos;\n"
+"layout(location = 1) in vec3 aColor;\n"
 
-const char* fragmentShaderSource = "#version 330 core\n"
-"out vec4 FragColor;\n"
-"uniform vec4 ourColor\n;"
+"out vec3 FragColor;\n"
+
 "void main()\n"
 "{\n"
-"   FragColor = ourColor;\n"
+"gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+"FragColor = aColor;\n"
 "}\n\0";
 
+const char* fragmentShaderSource = "#version 330 core\n"
+"in vec3 FragColor;\n"
+"out vec4 FinalColor;\n"
+"void main()\n"
+"{\n"
+"FinalColor = vec4(FragColor, 1.0);\n"
+"}\n\0";
 
 int main()
 {
@@ -50,7 +54,7 @@ int main()
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
-
+    // check for shader compile errors
     int success;
     char infoLog[512];
     glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
@@ -59,23 +63,23 @@ int main()
         glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
-
+    // fragment shader
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
-
+    // check for shader compile errors
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
     if (!success)
     {
         glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
         std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
-
+    // link shaders
     unsigned int shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
     glLinkProgram(shaderProgram);
-
+    // check for linking errors
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
@@ -85,14 +89,8 @@ int main()
     glDeleteShader(fragmentShader);
 
     TaskA Task;
-    Task.function(2);
-    Task.interval(3, 7, 3);
-    Task.redOrGreen(3);
-
-    vector<float>vertices = Task.interval(3, 7, 3);
-    vector<float>colour = Task.redOrGreen(3);
-
-    size_t points = vertices.size() / 2;
+   // vector<float>vertices = Task.interval(3, 7, 3);
+    vector<Vertex>colour = Task.redOrGreen(-10, 10);
 
     // Create the element buffer object
     unsigned int VBO, VAO;
@@ -100,18 +98,18 @@ int main()
     glGenBuffers(1, &VBO);
 
     unsigned int VBO_C;
-    glGenBuffers(1, &VBO_C);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO_C);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colour), colour.data(), GL_STATIC_DRAW);
 
     glUseProgram(shaderProgram);
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, colour.size()*sizeof(Vertex), colour.data(), GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glad_glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -127,13 +125,8 @@ int main()
 
         glUseProgram(shaderProgram);
 
-        float timeValue = glfwGetTime();
-        float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-        int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
-
         glBindVertexArray(VAO);
-        glDrawArrays(GL_LINE_STRIP, 0, points);
+        glDrawArrays(GL_LINE_STRIP, 0, colour.size());
         glBindVertexArray(0);
 
         glfwSwapBuffers(window);

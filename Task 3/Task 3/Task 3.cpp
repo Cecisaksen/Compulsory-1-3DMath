@@ -185,7 +185,7 @@ vector<float> generatePoints()
             points.push_back(r);
             points.push_back(g);
             points.push_back(b);
-            outfile << z << endl;
+            outfile << x << " " << y << " " << z << endl;
             countlines++;
         }
     }

@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <cmath>
 #include <vector>
+#include <fstream>
 
 #define M_PI 3.141592653
 
@@ -135,7 +136,10 @@ int main()
 
 vector<float> generateSpiral(float numLoops, float numPoints, float scale)
 {
+    ofstream outfile("Data.tmp");
+
     vector<float> vertices;
+    int countlines = 0;
 
     for (int i = 0; i <= numPoints; ++i) {
         float t = (float)i / numPoints;
@@ -146,7 +150,21 @@ vector<float> generateSpiral(float numLoops, float numPoints, float scale)
         vertices.push_back(x);
         vertices.push_back(y);
         vertices.push_back(z);
+        outfile << x << " " << y << " " << z << endl;
+        countlines++;
     }
+
+    outfile.close();
+
+    ifstream tempfile("Data.tmp");
+    ofstream finalfile("Data.txt");
+
+    finalfile << "Line count: " << countlines << endl;
+    finalfile << tempfile.rdbuf();
+
+    tempfile.close();
+    finalfile.close();
+    remove("Data.tmp");
 
     return vertices;
 }

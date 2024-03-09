@@ -3,12 +3,17 @@
 
 using namespace std;
 
+struct Vertex {
+	float x, y, z, r, g, b, u, v;
+};
+
 class TaskA
 {
 public:
-	double function(double x);
-	vector<float>interval(float a, float b, int numPoints);
-	vector<float>redOrGreen(int x);
+
+	float function(float x);
+	//vector<Vertex>interval(float a, float b, int numPoints);
+	vector<Vertex>redOrGreen(float lower, float upper);
 
 
 };

@@ -4,52 +4,70 @@
 
 using namespace std;
 
-double TaskA::function(double x)
+float TaskA::function(float x)
 {
-	double number = x;
-	double f = 2 * x + 2;
+	float number = x;
+	float f = 2 * x + 2;
 
-	cout << "f(" << number << ") = " << f << endl;
-	return 0.0;
+	return f;
 }
 
-vector<float> TaskA::interval(float a, float b, int numPoints)
-{
-    vector<float> vertices;
-
-    float step = (b - a) / numPoints;
-    for (float i = a; i <= b; i += step) {
-        double f = 2 * i + 2;
-        cout << "Interval " << i << " is " << f << endl;
-        vertices.push_back(i);
-        vertices.push_back(static_cast<float>(f));
-    }
-
-	return vertices;
+float derivative(float x) {
+    return 2;
 }
 
-vector<float> TaskA::redOrGreen(int x)
+vector<Vertex> TaskA::redOrGreen(float lower, float upper)
 {
-    vector<float> colour;
+    vector < Vertex > Derivativedata;
+    vector<Vertex> colour;
 
-    ofstream outfile("Vertexdata1.txt");
+    ofstream outfile("RedOrGreen.txt");
+    ofstream vertexData("VertexData.txt");
 
-    vector<float> functionValues;
-    for (int i = 0; i < x; i++) {
-        double f = 2 * i + 2;
-        functionValues.push_back(static_cast<float>(f));
+    int countlines = 0;
+
+    float resolution = 1.f;
+    float n = (upper - lower) / resolution;
+    float h = (upper - lower) / n;
+
+    vector<Vertex> functionValues;
+    for (float i = lower; i < upper; i+=h)
+    {
+        float f = 2 * i + 2;
+        functionValues.push_back(Vertex{ i, f, 0 });
+        Derivativedata.push_back(Vertex{ i, derivative(i),0 });
     }
 
-    for (size_t i = 0; i < functionValues.size() - 1; i++) {
-        if (functionValues[i] < functionValues[i + 1]) {
+    for (float i = 0; i < functionValues.size() - 1; i++) {
+        float f = 2 * i + 2;
+        if (functionValues[i].y < functionValues[i + 1].y) {
             cout << "Interval " << i << " is increasing (green)." << endl;
             outfile << "Interval " << i << " is increasing (green)." << endl;
+            colour.push_back(Vertex{ functionValues[i].x/10, functionValues[i].y/10, 0, 0, 1, 0 });
         }
         else {
             cout << "Interval " << i << " is decreasing (red)." << endl;
             outfile << "Interval " << i << " is decreasing (red)." << endl;
+            colour.push_back(Vertex{ functionValues[i].x/10, functionValues[i].y/10, 0, 1, 0, 0});
         }
+
+        vertexData << colour[i].x << " " << colour[i].y << " " << colour[i].z << " " << colour[i].r << " " << colour[i].g << " " << colour[i].b << endl;
+        countlines++;
+
     }
+
+    outfile.close();
+    vertexData.close();
+
+    ifstream tempfile("vertexData.txt");
+    ofstream finalfile("Data.txt");
+
+    finalfile << "Line count: " << countlines << endl;
+    finalfile << tempfile.rdbuf();
+
+    tempfile.close();
+    finalfile.close();
+    remove("vertexData.txt");
 
     return colour;
 }
